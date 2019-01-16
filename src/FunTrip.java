@@ -7,10 +7,11 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class FunTrip {
-    // ПЕРЕИМЕНОВАТЬ ФУНКЦИЮ
-    // Проверяем заполнена ли поездка
+
+
+   // Проверяет готова ли будет поездка после объединения двух других
     public boolean canFinish(@NotNull Trip o1, @NotNull Trip o2) {
-        // счетчик совместимости, если он равен 4, то они совеместимы
+        // счетчик совместимости, если он равен 4, то поездки готовы
         int countComp = 0;
 
         if (o1.getCountFreePlace() + o2.getCountFreePlace() != 4)
@@ -35,6 +36,7 @@ public class FunTrip {
     public Trip merge(@NotNull Trip o1, @NotNull Trip o2) {
         Trip result = new Trip("null", "null", "null", "null");
 
+        // Выбираем из какой поездки взять ячейку
         if (o1.place1.equals("null") && !o2.place1.equals("null"))
             result.place1 = o2.place1;
         if (!o1.place1.equals("null") && o2.place1.equals("null"))
@@ -58,71 +60,41 @@ public class FunTrip {
         return result;
     }
 
+
+    // проверка на возможность объединения двух поездок, если counter = 4, то возможно
     public boolean canMerge(@NotNull Trip o1, @NotNull Trip o2) {
         int counter = 0;
 
         if (o1.place1.equals("null") && !o2.place1.equals("null") ||
-                (!o1.place1.equals("null") && o2.place1.equals("null")))
+                (!o1.place1.equals("null") && o2.place1.equals("null")) ||
+                (o1.place1.equals("null") && o2.place1.equals("null")))
             counter++;
+
 
         if (o1.place2.equals("null") && !o2.place2.equals("null") ||
-                (!o1.place2.equals("null") && o2.place2.equals("null")))
+                (!o1.place2.equals("null") && o2.place2.equals("null")) ||
+                (o1.place2.equals("null") && o2.place2.equals("null")))
             counter++;
+
 
         if (o1.place3.equals("null") && !o2.place3.equals("null") ||
-                (!o1.place3.equals("null") && o2.place4.equals("null")))
+                (!o1.place3.equals("null") && o2.place3.equals("null")) ||
+                (o1.place3.equals("null") && o2.place3.equals("null")))
             counter++;
+
 
         if (o1.place4.equals("null") && !o2.place3.equals("null") ||
-                (!o1.place4.equals("null") && o2.place4.equals("null")))
+                (!o1.place4.equals("null") && o2.place4.equals("null")) ||
+                (o1.place4.equals("null") && o2.place4.equals("null")))
             counter++;
 
-        if (counter != 0)
+
+        if (counter == 4)
             return true;
         else
             return false;
     }
 
 
-    public ArrayList<Trip> createListTrip() {
-        ArrayList<Trip> trips = new ArrayList<>();
-        String jsonText = null;
-        JSONArray jsonArrays = null;
 
-        try {
-            // считываем файл
-            jsonText = IOUtils.toString(new FileInputStream(new File("input.json")));
-            jsonText = jsonText.substring(jsonText.indexOf("["));
-
-            jsonArrays = new JSONArray(jsonText);
-
-            // Проходим по массиву массиво Json и переносим все в объекты
-            for (int i = 0; i < jsonArrays.length(); i++) {
-                JSONArray jsonArray = jsonArrays.getJSONArray(i);
-                Trip temp = new Trip(jsonArray.get(0).toString(), jsonArray.get(1).toString(), jsonArray.get(2).toString(), jsonArray.get(3).toString());
-
-                // System.out.println(temp.toString() + "\n----------");
-
-                trips.add(temp);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        trips.sort(Trip::compareTo);
-
-        return trips;
-    }
-
-    public void saveListTrip(ArrayList<Trip> trips) {
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.put(trips);
-        try {
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -1,11 +1,43 @@
 [
-  [ null,   "c2",   "c3",   null   ],
-  [ "h1",   null ,  null,   null   ],
-  [ "g1",   null ,  null,   null   ],
-  [ "g1",   null ,  null,   null   ],
-  [ null,   "c2",   "c3",   null   ],
-  [ "h1",   null ,  null,   null   ],
-  [ null,   "c2",   "c3",   null   ],
-  [ "c2",   null ,  null,   null   ],
-  [ "g1",   null ,  null,   null   ]
+   [ null,   "c2",   "c3",   null   ],
+   [ "h1",   null ,  null,   null   ],
+   [ "g1",   null ,  null,   null   ],
+   [ "g1",   null ,  null,   null   ],
+   [ null,   "c2",   "c3",   null   ],
+   [ "h1",   null ,  null,   null   ],
+   [ null,   "c2",   "c3",   null   ],
+   [ "c2",   null ,  null,   null   ],
+   [ "g1",   null ,  null,   null   ]
+ ]
+
+
+[
+    [ "a1",   "a2",   "a3",   "a4"   ],
+    [ "b1",   null,   null,   "b4"   ],
+    [ null,   "c2",   "c3",   null   ],
+    [ "d1",   null,   null,   "d4"   ],
+    [ null,   "e2",   "e3",   null   ],
+    [ null,   "f2",   "f3",   "f4"   ],
+    [ "h1",   null ,  null,   null   ],
+    [ "g1",   null ,  null,   null   ]
+]
+
+
+pl: b1 p2: c2 p3: c3 p4: b4 +
+pl: b1 p2: e2 p3: e3 p4: b4 +
+pl: d1 p2: c2 p3: c3 p4: d4 +
+pl: d1 p2: e2 p3: e3 p4: d4 +
+pl: a1 p2: a2 p3: a3 p4: a4 +
+pl: h1 p2: f2 p3: f3 p4: f4 +
+pl: g1 p2: f2 p3: f3 p4: f4 +
+
+
+[
+[ "g1", "f2", "f3", "f4" ], <- комбинация 8й и 6й строки
+[ "h1", "f2", "f3", "f4" ], <- комбинация 7й и 6й строки
+[ "d1", "e2", "e3", "d4" ], <- комбинация 4й и 5й строки
+[ "d1", "c2", "c3", "d4" ], <- комбинация 4й и 3й строки
+[ "b1", "e2", "e3", "b4" ], <- комбинация 2й и 5й строки
+[ "b1", "c2", "c3", "b4" ], <- комбинация 2й и 3й строки
+[ "a1", "a2", "a3", "a4" ] <- первая строка полностью самодостаточна
 ]

@@ -4,6 +4,7 @@ import java.util.TreeSet;
 public class Main {
     public static void main(String[] args) {
         FunTrip funTrip = new FunTrip();
+        ListTrip listTrip = new ListTrip();
 
         // Считываем Json файл
         ArrayList<Trip> trips;
@@ -18,7 +19,9 @@ public class Main {
         // переменная для временного хранения
         Trip mergeTripTemp = null;
 
-        trips = funTrip.createListTrip();
+        // получаем список поездок
+        trips = listTrip.createListTrip();
+
         if (trips == null)
             return;
 
@@ -26,61 +29,12 @@ public class Main {
         printTreeSet(trips);
 
 
-        while (trips.size() > 1) {
+        while (trips.size() != 0) {
             for (Trip trip : trips) {
 
                 //Если у поездки 4 свободные ячейки, то мы можем бесконечно их начать перебирать
                 if (trip.getCountFreePlace() == 4) {
                     toremove.add(trip);
-                }
-
-                // Если у поездки 3 свободные ячейки...
-                if (trip.getCountFreePlace() == 3) {
-                    toremove.add(trip);
-                    for (Trip temp : trips) {
-                        if (temp.equals(trip))
-                            continue;
-                        // Первое  мы ищем поздки, где есть 3 свободные ячейки ...
-                        if (temp.getCountFreePlace() == 3) {
-                            // .. соединяем ее с первоночальной поездкой...
-                            if (funTrip.canMerge(temp, trip)) {
-                                mergeTripTemp = funTrip.merge(temp, trip);
-                                // ... если после объединения ячеек, что-то изменилось, то добавляем новую поездку в общий список поездок
-                                if (!trip.equals(mergeTripTemp)) {
-                                    toadd.add(mergeTripTemp);
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-
-                // Если у поездки 2 свободные ячейки...
-                if (trip.getCountFreePlace() == 2) {
-                    toremove.add(trip);
-
-                    for (Trip temp : trips) {
-                        // Затем ищем поездки, где тоже есть 2 свободные ячейки ...
-                        if (temp.getCountFreePlace() == 2) {
-                            // ... если такая находится, то соединяем их и добавляем в общий список
-                            if (funTrip.canFinish(trip, temp))
-                                result.add(funTrip.merge(temp, trip));
-                        }
-                    }
-                    break;
-                }
-
-                // Ищем поездку в которой есть только 1 свободное место
-                if (trip.getCountFreePlace() == 1) {
-                    // Удаляем этот объект т.к. в составлении комбинаций он более не пригодится
-                    toremove.add(trip);
-                    // Проходимся по массиву в поисках подходящего объекта
-                    for (Trip temp : trips) {
-                        if (funTrip.canFinish(temp, trip)) {
-                            result.add(funTrip.merge(temp, trip));
-                        }
-                    }
-                    break;
                 }
 
                 // Если поездка полоная, то переносим ее в результат, т.к. с ней уже ничего не сделать
@@ -92,6 +46,50 @@ public class Main {
                     break;
                 }
 
+                // Ищем поездку в которой есть только 1 свободное место
+                if (trip.getCountFreePlace() == 1) {
+                    // Добавляем элемент на удаление, т.к. после выполнения следующего цикла, данная поездка не пригодиться
+                    toremove.add(trip);
+                    // Проходимся по массиву в поисках подходящего объекта
+                    for (Trip temp : trips) {
+                        if (funTrip.canFinish(temp, trip)) {
+                            result.add(funTrip.merge(temp, trip));
+                        }
+                    }
+                    break;
+                }
+
+                // Если у поездки 2 свободные ячейки...
+                if (trip.getCountFreePlace() == 2) {
+                    // Добавляем элемент на удаление, т.к. после выполнения следующего цикла, данная поездка не пригодиться
+                    toremove.add(trip);
+
+                    for (Trip temp : trips) {
+                        //  ищем поездки, где тоже есть 2 свободные ячейки ...
+                        if (temp.getCountFreePlace() == 2 ) {
+                            // ... если такая находится, то соединяем их и добавляем в результат
+                            if (funTrip.canFinish(trip, temp))
+                                result.add(funTrip.merge(temp, trip));
+                        }
+                    }
+                    break;
+                }
+
+                // Если у поездки 3 свободные ячейки...
+                if (trip.getCountFreePlace() == 3) {
+                    toremove.add(trip);
+                    for (Trip temp : trips) {
+                        // то мы обхединяем данную поездку с отстальными
+                        if (temp.getCountFreePlace() == 3 || temp.getCountFreePlace() == 2 || temp.getCountFreePlace() == 1) {
+                            if (funTrip.canMerge(temp, trip)) {
+                                mergeTripTemp = funTrip.merge(temp, trip);
+                                    toadd.add(mergeTripTemp);
+
+                            }
+                        }
+                    }
+                    break;
+                }
             }
 
             // добавляем новые элементы в общий список поездок
