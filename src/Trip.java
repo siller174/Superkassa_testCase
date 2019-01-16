@@ -48,17 +48,17 @@ public class Trip implements Comparable {
 
         return count;
     }
-
-    public boolean equals(Trip trip) {
+    @Override
+    public boolean equals(Object trip) {
         int count = 0;
 
-        if (this.place1.equals(trip.place1))
+        if (this.place1.equals(((Trip)trip).place1))
             count++;
-        if (this.place2.equals(trip.place2))
+        if (this.place2.equals(((Trip)trip).place2))
             count++;
-        if (this.place3.equals(trip.place3))
+        if (this.place3.equals(((Trip)trip).place3))
             count++;
-        if (this.place4.equals(trip.place4))
+        if (this.place4.equals(((Trip)trip).place4))
             count++;
 
 

@@ -1,9 +1,8 @@
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -38,42 +37,38 @@ public class ListTrip {
     }
 
     public void saveListTrip(ArrayList<Trip> trips) {
-        try (FileWriter writer = new FileWriter("output.json", false)) {
-            writer.write("[\n");
-            for (int i = 0; i < trips.size() - 1; i++) {
-                writer.write(trips.get(i).toString() + ",\n");
+        // Добавляем, да бы не сохранять повторы
+        ArrayList<Trip> alreadyPrint = new ArrayList<>();
+
+        // Создаем массив массивов JSON
+        JSONArray listTrip = new JSONArray();
+
+        JSONArray temp;
+        try {
+            // Добавляем первый элемент в Json массив
+            temp = new JSONArray(trips.get(0).toString());
+            listTrip.put(temp);
+            // Отмечаем объект, что мы его добавили, чтобы избавиться от повторов
+            alreadyPrint.add(trips.get(0));
+
+            for (int i = 1; i < trips.size(); i++) {
+                temp = new JSONArray(trips.get(i).toString());
+
+                //Проверяем сохраняли ли в файл мы уже схожий объект
+                if (!alreadyPrint.contains(trips.get(i)))
+                    listTrip.put(temp);
             }
-            writer.write(trips.get(trips.size() - 1) + "\n]");
 
-            writer.flush();
-        } catch (Exception e) {
-            System.out.println("Error in ListTrip - saveListTrip: " + e);
+            FileWriter fileWriter = new FileWriter("output.json");
+            fileWriter.write(listTrip.toString());
+            fileWriter.flush();
+            fileWriter.close();
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    public ArrayList<Trip> removeDublicate(ArrayList<Trip> trips){
-        ArrayList<Trip> result = new ArrayList<>();
-
-        if (trips.size() == 1)
-            return trips;
-
-        if (trips.size() == 2)
-        {
-            if (trips.get(0).equals(trips.get(1)))
-                trips.remove(1);
-            return trips;
-        }
-        result.add(trips.get(0));
-        for (int i = 1; i < trips.size() - 1; i++) {
-            for (int j = 2; j < trips.size(); j++) {
-                if (trips.get(i).equals(trips.get(j))) {
-                  break;
-                }
-
-
-            }
-        }
-        return result;
-
     }
 }

@@ -108,8 +108,6 @@ public class Main {
 
         }
 
-        result = listTrip.removeDublicate(result);
-
         // Сохраняем реультат в файл
         listTrip.saveListTrip(result);
 
