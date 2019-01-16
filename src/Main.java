@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,10 +23,6 @@ public class Main {
 
         if (trips == null)
             return;
-
-        System.out.println("BEFORE trips :\n");
-        printTreeSet(trips);
-
 
         while (trips.size() != 0) {
             for (Trip trip : trips) {
@@ -113,19 +108,10 @@ public class Main {
 
         }
 
-        System.out.println("\n_________" + "AFTER trips :\n");
-        printTreeSet(trips);
+        result = listTrip.removeDublicate(result);
 
-        System.out.println("\n________________" + "Result :\n");
-        printTreeSet(result);
+        // Сохраняем реультат в файл
+        listTrip.saveListTrip(result);
 
-        //JsonConverter.readJson("input.json");
     }
-
-    public static void printTreeSet(ArrayList<Trip> trips) {
-        for (Trip trip : trips) {
-            System.out.println(trip.toString());
-        }
-    }
-
 }

@@ -1,15 +1,17 @@
-import org.apache.commons.io.IOUtils;
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
+
+/*
+
+    Да, я знаю, что ифы ниже просто ужасны, но при переносе их в фунции код бы увеличился на 40 строчек
+
+
+ */
 
 public class FunTrip {
 
-
-   // Проверяет готова ли будет поездка после объединения двух других
+    // Проверяет готова ли будет поездка после объединения двух других
     public boolean canFinish(@NotNull Trip o1, @NotNull Trip o2) {
         // счетчик совместимости, если он равен 4, то поездки готовы
         int countComp = 0;
@@ -94,7 +96,6 @@ public class FunTrip {
         else
             return false;
     }
-
 
 
 }
