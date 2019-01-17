@@ -1,6 +1,7 @@
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 public class Trip implements Comparable {
     public String place1;
@@ -34,6 +35,32 @@ public class Trip implements Comparable {
         return str;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        int count = 0;
+        Trip trip = (Trip) o;
+
+        if (this.place1.equals(trip.place1))
+            count++;
+        if (this.place2.equals(trip.place2))
+            count++;
+        if (this.place3.equals(trip.place3))
+            count++;
+        if (this.place4.equals(trip.place4))
+            count++;
+
+
+        if (count == 4)
+            return true;
+        else
+            return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(place1, place2, place3, place4);
+    }
+
     public int getCountFreePlace() {
         int count = 0;
 
@@ -48,25 +75,5 @@ public class Trip implements Comparable {
 
         return count;
     }
-    @Override
-    public boolean equals(Object trip) {
-        int count = 0;
-
-        if (this.place1.equals(((Trip)trip).place1))
-            count++;
-        if (this.place2.equals(((Trip)trip).place2))
-            count++;
-        if (this.place3.equals(((Trip)trip).place3))
-            count++;
-        if (this.place4.equals(((Trip)trip).place4))
-            count++;
-
-
-        if (count == 4)
-            return true;
-        else
-            return false;
-    }
-
 
 }
